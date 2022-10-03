@@ -5,9 +5,9 @@ name: Python application and Publish Python 🐍 distributions 📦 to PyPI and 
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    # branches: [ "master" ]
+  # pull_request:
+    # branches: [ "master" ]
 
 permissions:
   contents: read
