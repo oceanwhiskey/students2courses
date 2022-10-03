@@ -4,7 +4,7 @@ import os
 from typing import Tuple
 from pathlib import Path
 
-from src.students2courses import solver
+from students2courses import solver
 
 DIR = Path(__file__).resolve().parent
 
