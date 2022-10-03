@@ -5,9 +5,6 @@ name: Python application and Publish Python 🐍 distributions 📦 to PyPI and 
 
 on: push
 
-permissions:
-  contents: read
-
 jobs:
   build:
     name: Test Python application
