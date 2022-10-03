@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "students2courses"
-version = "0.5.1"
+version = "0.5.2"
 authors = [
   { name="Ingo Wilms", email="ingo.wilms@gmail.com" },
 ]
 description = "Solves the following problem: Students choose their course preferences from a set of courses. Assign a course to each student so that as many wishes as possible are fulfilled."
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
