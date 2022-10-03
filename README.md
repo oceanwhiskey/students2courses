@@ -257,7 +257,7 @@ $$
   \begin{cases}
     j_k & \text{for } i\in \{i_k,i_{k+1},\dots,i_{k_{\max}-1}\},\\
     j & \text{for } i=i_{k_{\max}},\\
-    f(i) & \text{other}
+    f(i) & \text{otherwise}
   \end{cases}
 $$
 we have reached our goal, because there is now a place in the course $f(i_k)$.  $\square$
