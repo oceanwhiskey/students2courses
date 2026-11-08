@@ -252,7 +252,7 @@ def verify_solution(S2C: dict, S: dict, C: dict):
     # All of them are full and all students who voted only for courses
     # in R exceed the capacity of R by exactly the number of unassigned
     # students, so no assignment can do better (Koenig-Ore).
-    C2S = {c: [] for c in C.keys()}
+    C2S: dict[str, list[str]] = {c: [] for c in C.keys()}
     for s, c in S2C.items():
         if c is not None:
             C2S[c].append(s)

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "students2courses"
-version = "1.1.0"
+version = "1.1.1"
 authors = [
   { name="Ingo Wilms", email="ingo.wilms@gmail.com" },
 ]
