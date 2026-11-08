@@ -16,7 +16,7 @@
 # student2courses
 
 ## Abstract 
-Solves the problem of assigning $n$ students to $m$ courses taking into account the course preferences of each student. Each student chooses between 1 and $l$ courses. The complexity for time and space is both $O(lmn)$. Returns a dictionary (hashmap) with keys as student ids and values as course ids.
+Solves the problem of assigning $n$ students to $m$ courses taking into account the course preferences of each student. Each student chooses between 1 and $l$ courses. The time complexity is $O(n\cdot(lm + \min(m^2, ln)))$ in the worst case, the space complexity is $O(ln + m)$. Returns a dictionary (hashmap) with keys as student ids and values as course ids.
 		
 ## Use case
 Often universities offer courses with restricted capacities. The students are not randomly assigned, but assigned to a course of their preference whenever possible. For that, they are asked to vote for all courses of their preference. Now, is there a solution that respects all (or at least as many as possible) course preferences? The students are usually assigned manually by the administration. This tool was developed to avoid manual work and to provide an optimal solution. 
@@ -32,7 +32,9 @@ Often universities offer courses with restricted capacities. The students are no
 ## Solve the Problem
 The method `solver.students_to_courses` takes two arguments:
 * a dictionary of course capacities where the keys are the unique ids of the courses and the values are their capacities (integers).
-* a dictionary with the votes of all students where the keys are unique student ids and the values are their votes (list of unique course ids).
+* a dictionary with the votes of all students where the keys are unique student ids and the values are their votes (list of course ids, duplicates are ignored).
+
+A `ValueError` is raised if a student votes for an unknown course id or if a capacity is negative.
 
 Example:
 
@@ -184,7 +186,7 @@ Now, the generated *output.csv* looks like this:
     A,a
     B,e
     C,b
-    D,a
+    D,b
     E,a
     F,b
     G,c
@@ -200,13 +202,13 @@ Now, the generated *output.csv* looks like this:
     Q,b
     R,c
     S,d
-    T,c
+    T,a
 
 And we can verify that this solution is valid:
 
     >>> from collections import Counter
     >>> print(Counter(S2C.values()))
-    Counter({'b': 5, 'a': 4, 'e': 4, 'd': 4, 'c': 3})
+    Counter({'b': 6, 'a': 4, 'e': 4, 'd': 4, 'c': 2})
 
 # Math behind the Solver
 Given are $n$ students who have all chosen at least one course, but at most $l$ courses from a set of $m$ courses. Every course $j\in\{1,\dots,m\}$ has a capacity $c_j$. Can we allocate the students to the courses in such a way that each student gets a course of their choice?
@@ -277,4 +279,4 @@ With our lemma there is then an equally good function $g$ with an identical kern
 Now even the best theory is useless here if we can't put it into practice. To check whether a course problem is solvable, we can e.g. iterate through all subsets of $C$ and, following the definition, check the prerequisites for whether the course problem is suitable. We need $2^m$ steps for the loop alone. This means exponential complexity. In addition, we then only know whether the course problem can be solved or not, but we do not obtain any solution.
 
 If we look at the lemma again, it provides a faster and constructive way: we can successively assign the students to courses. If all the chosen courses of a student are occupied, we can either create a free place in one of these courses by swapping students who have already been assigned to other courses, or the course problem is not suitable.
-Every time a student $i$ is assigned to course $j$ via $f(i) := j$ we keep track of which other courses from $v_i$ we can swap $i$. We can find a solution with time complexity $\mathcal{O}(lmn)$ or, if there is no solution, at least a mapping with a minimal kernel. We can then allocate the students from the kernal to the remaining free course places as we wish.
+Every time a student $i$ is assigned to course $j$ via $f(i) := j$ we keep track of which other courses from $v_i$ we can swap $i$. Searching for such a chain of switches is a breadth-first search over the courses, so we can find a solution with time complexity $\mathcal{O}(n\cdot(lm + \min(m^2, ln)))$ or, if there is no solution, at least a mapping with a minimal kernel. If the search fails for a student, all courses it visited are full and can never take part in a successful chain of switches again, so they are skipped from then on. We can then allocate the students from the kernal to the remaining free course places as we wish.
